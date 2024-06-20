@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+
+<button id="getDataBtn">Obtener Datos</button>
+<div id="result"></div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#getDataBtn").click(function () {
+            $.ajax({
+                url: 'https://localhost:7146/WeatherForecast/GetWeatherForecast2',
+                type: 'GET',
+                success: function (data) {
+                    $("#result").html('<p>Nombre: ' + data + '</p><p>Mensaje: ' + data + '</p>');
+                },
+                error: function () {
+                    $("#result").html('<p>Ocurrió un error al obtener los datos.</p>');
+                }
+            });
+        });
+    });
+</script>

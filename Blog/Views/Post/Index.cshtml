@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<button id="getDataBtn">Obtener Datos</button>
+<div id="result"></div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#getDataBtn").click(function () {
+            $.ajax({
+                url: 'https://localhost:7146/api/Posts/geta',
+                type: 'GET',
+                success: function (data) {
+                    $("#result").html('<p>Nombre: ' + data + '</p><p>Mensaje: ' + data + '</p>');
+                },
+                error: function () {
+                    $("#result").html('<p>Ocurrió un error al obtener los datos.</p>');
+                }
+            });
+        });
+    });
+</script>

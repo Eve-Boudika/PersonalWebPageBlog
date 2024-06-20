@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<form id="blogForm" class="text-center"  method="post">
+    
+    <h1>Blog</h1>
+    <br />
+    <div>
+        <label for="Titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" class="form-control" style="width: 500px; margin: 0 auto;" />
+    </div>
+    <br />
+    <div> 
+        <label for="Fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha" class="form-control" style="width: 500px; margin: 0 auto;" />
+    </div>
+    <br />
+    <div>
+        <label for="Contenido">Contenido</label>
+        <textarea id="contenido" name="Contenido" class="form-control" style="width: 500px; margin: 0 auto;"></textarea>
+    </div>
+    <br />
+    <div>
+        <button type="submit" id="btnsubmit" class="btn btn-primary">Enviar</button>
+    </div>
+
+</form>
+<div id="result"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#blogForm").submit(function (event) {
+            event.preventDefault();
+
+            var fecha = $("#fecha").val();
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var year = now.getFullYear();
+            var hours = ("0" + now.getHours()).slice(-2);
+            var minutes = ("0" + now.getMinutes()).slice(-2);
+            var seconds = ("0" + now.getSeconds()).slice(-2);
+
+            if (!fecha) {
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var year = now.getFullYear();
+                fecha = year + "-" + month + "-" + day;
+            }
+
+            fecha += "T" + hours + ":" + minutes + ":" + seconds;
+
+            var formData = {
+                Titulo: $("#titulo").val(),
+                Contenido: $("#contenido").val(),
+                Fecha: fecha
+
+            };
+
+
+            $.ajax({
+                url:'https://localhost:7146/api/Posts',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    $("#result").html('<p>Formulario enviado correctamente.</p>');
+                },
+                error: function () {
+                    $("#result").html('<p>Ocurrió un error al enviar el formulario.</p>');
+                }
+            });
+        });
+    });
+</script>
